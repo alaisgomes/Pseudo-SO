@@ -11,6 +11,8 @@
 
 using namespace std;
 
+#define MAX_MEM 10
+
 //===== VARIAVEIS
 
 typedef struct _proc {
@@ -27,27 +29,45 @@ typedef struct _proc {
 	int estado;
 	int pc; //qual instrucao esta
 
-} proc_t;
-typedef vector<proc_t> v_proc;
+	// sobrecarregando o operador para que possa printar todas as variaveis
+	friend ostream& operator<<(ostream &os, const _proc &proc) {
+		os << proc.pid;
+		os << proc.inicializacao;
+		os << proc.prioridade;
+		os << proc.processador;
+		os << proc.offset;
+		os << proc.impressora;
+		os << proc.scanner;
+		os << proc.modem;
+		os << proc.disco << '\n';
+		return os;
+	}
 
-typedef struct _fila {
+} proc_t;
+
+extern vector<proc_t> vet_processos;
+
+/*typedef struct _fila {
 	int pseudo_pid; // index do vet_processos
 	_fila *prox;
 } fila_t;
-extern queue<proc_t> fila_prioridade0;
-extern queue<proc_t> fila_prioridade1;
-extern queue<proc_t> fila_prioridade2;
-extern queue<proc_t> fila_prioridade3;
+*/
 
-typedef struct _recursos {
+extern queue<proc_t> fila_prioridade_zero;
+extern queue<proc_t> fila_prioridade_um;
+extern queue<proc_t> fila_prioridade_dois;
+extern queue<proc_t> fila_prioridade_tres;
+
+/*typedef struct _recursos {
 	int pseudo_pid;
 	_recursos *prox;
 } recursos_t;
+*/
 
-extern queue<recursos_t> fila_impressora;
-extern queue<recursos_t> fila_scanner;
-extern queue<recursos_t> fila_driver;
-extern queue<recursos_t> fila_disco;
+extern queue<proc_t> fila_impressora;
+extern queue<proc_t> fila_scanner;
+extern queue<proc_t> fila_driver;
+extern queue<proc_t> fila_disco;
 
 namespace recursos_disp {
 	extern vector<int> impressora;
@@ -56,15 +76,24 @@ namespace recursos_disp {
 	extern int driver;
 }
 
-extern vector<int> v_mem;
+extern vector<int> vet_memoria;
 
-//===== METODOS
+//===== CLASSES E METODOS
 
 class UTILS {
 	private:
 		static proc_t instVetorProcesso(vector<int> conf);
 	public:
-		static v_proc carregaProcesso(string arq);
+		static void carregaProcesso(string arq);
+		static void inicializaMemoria();
+		static void carregaFilaPrioridadeZero();
+
+};
+
+class DEBUG {
+	public:
+		static void mostrarProcesso(proc_t proc);
+		static void mostrarFilaPrioridadeZero();
 };
 
 #endif // DEFINE_H

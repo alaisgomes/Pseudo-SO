@@ -17,9 +17,7 @@ proc_t UTILS::instVetorProcesso(vector<int> conf) {
 }
 
 // Carrega configuracao de todos os processos a partir do arquivo
-v_proc UTILS::carregaProcesso(string arq) {
-	v_proc vet_processos;
-
+void UTILS::carregaProcesso(string arq) {
 	fstream fp;
 	fp.open(arq.c_str());
 
@@ -44,5 +42,21 @@ v_proc UTILS::carregaProcesso(string arq) {
 		conf.clear();
 	}	
 	fp.close();
-	return vet_processos;
+}
+
+// Inicializa memoria colocando -1 em todos arrays do vetor
+void UTILS::inicializaMemoria() {
+	for(int i; i < MAX_MEM; i++) {
+		vet_memoria.push_back(-1);
+	}
+}
+
+// Carrega processos com prioridade zero na fila de prioridade zero
+void UTILS::carregaFilaPrioridadeZero() {
+	for(unsigned int i=0; i < vet_processos.size(); i++) {
+		proc_t proc = vet_processos[i];
+		if(proc.prioridade == 0) {
+			fila_prioridade_zero.push(proc);
+		}
+	}
 }

@@ -1,5 +1,10 @@
 #include "defines.h"
 
+vector<proc_t> vet_processos;
+vector<int> vet_memoria;
+
+queue<proc_t> fila_prioridade_zero;
+
 int main(int argc, char **argv) {
 
 	// Le arquivo de processos
@@ -12,21 +17,17 @@ int main(int argc, char **argv) {
 		arq.assign(argv[1]);
 	}
 
-	// carrega em memoria
-	v_proc vet_processos = UTILS::carregaProcesso(arq.data());
+	// carrega vetor de processos
+	UTILS::carregaProcesso(arq.data());
 
-	//DEBUG
-	for(unsigned int i=0; i<vet_processos.size(); i++) {
-		proc_t proc = vet_processos[i];
-		cout <<	proc.pid;
-		cout <<	proc.inicializacao;
-		cout <<	proc.prioridade;
-		cout <<	proc.processador;
-		cout << proc.offset;
-		cout <<	proc.impressora;
-		cout <<	proc.scanner;
-		cout <<	proc.modem;
-		cout <<	proc.disco << '\n';
-	}
+	// carrega vetor de memoria
+	UTILS::inicializaMemoria();
+
+	// carrega processos na fila de prioridade um
+	UTILS::carregaFilaPrioridadeZero();
+
+	//DEBUG::mostrarProcesso(vet_processos[0]);
+	DEBUG::mostrarFilaPrioridadeZero();
+
 	return 0;
 }
