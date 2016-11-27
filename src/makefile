@@ -2,6 +2,9 @@ all: prog clean
 processos.o: processos.cpp defines.h
 	g++ -c -Wall processos.cpp
 
+memoria.o: memoria.cpp defines.h
+	g++ -c -Wall memoria.cpp	
+
 recursos.o: recursos.cpp defines.h
 	g++ -c -Wall recursos.cpp
 
@@ -14,8 +17,8 @@ utils.o: utils.cpp defines.h
 main.o: main.cpp defines.h
 	g++ -c -Wall main.cpp
 
-prog: utils.o main.o debug.o processos.o recursos.o
-	g++ -g -Wall main.o utils.o debug.o processos.o recursos.o -o simulacao
+prog: utils.o main.o debug.o processos.o recursos.o memoria.o
+	g++ -g -Wall main.o utils.o debug.o processos.o recursos.o memoria.o -o simulacao
 
 clean:
 	rm -f *.o

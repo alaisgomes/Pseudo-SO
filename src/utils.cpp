@@ -21,6 +21,7 @@ proc_t UTILS::instVetorProcesso(vector<int> conf) {
 
 // Carrega configuracao de todos os processos a partir do arquivo
 void UTILS::carregaProcesso(string arq) {
+
 	fstream fp;
 	fp.open(arq.c_str());
 
@@ -46,6 +47,7 @@ void UTILS::carregaProcesso(string arq) {
 		conf.clear();
 	}	
 	fp.close();
+
 }
 
 // Inicializa memoria colocando -1 em todos arrays do vetor

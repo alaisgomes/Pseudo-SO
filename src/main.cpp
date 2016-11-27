@@ -6,15 +6,18 @@ vector<proc_t> vet_processos;
 vector<int> vet_memoria;
 queue<proc_t> fila_prioridade_zero;
 
+vector<int> processos_novos;
+
 #define CLOCK 100000  
 
 
 int main(int argc, char **argv) {
-	
+
 	int clock_atual = 0; // É incrementado sempre que roda o loop
-	vector<int> pid_chegou;
-	int pid_exec;
 	
+	int pid_exec = 0;
+	
+
 
 	// Le arquivo de processos
 	string	arq;
@@ -31,18 +34,17 @@ int main(int argc, char **argv) {
 
 	// Carrega vetor de memoria
 	UTILS::inicializaMemoria();
-
-
-
-
+	
 	// Inicia Fluxo
-	while(PROCESSOS::verificaNaoFinalizados()) {
+	while(1) {
 		
 		//Ha novos processos? SIM
 		if(vet_processos.size() > 0) {
-			if (PROCESSOS::verificaNovo(clock_atual, pid_chegou)) {
+
+			if (PROCESSOS::verificaNovo(clock_atual)) {
+
 				// aloca memoria
-				//MEMORIA::alocaMemoria(pid_chegou);
+				MEMORIA::alocaMemoria();
 
 				//poe na fila de processos
 				
@@ -51,6 +53,7 @@ int main(int argc, char **argv) {
 		}
 
 		// Ha um processo em execucao? SIM
+		
 		if ((pid_exec = PROCESSOS::verificaExecucao()) > -1) {
 
 			//Incrementa PC dele
@@ -85,8 +88,10 @@ int main(int argc, char **argv) {
 			PROCESSOS::atualizaEstado(pid_exec, 2);
 
 			//libera memoria e dispositivos
+			MEMORIA::removeMemoria(pid_exec);
 
 			//desfrag memoria
+			MEMORIA::desfragmentar();
 
 
 		} else { // NAO
@@ -113,15 +118,23 @@ int main(int argc, char **argv) {
 
 		//incrementa clock
 		clock_atual++;
-		pid_chegou.clear();
+		processos_novos.clear();
 
 		//atualiza recursos
 
+		
+		//usleep(CLOCK);
 
-		usleep(CLOCK);
 
+		if (!PROCESSOS::verificaExisteMaisProcessos()) {
+			break;	
+		}
 
+		//DEBUG::mostrarMemoria();
+		
+		getchar();
 	}
+	
 
 	//DEBUG::mostrarProcesso(vet_processos[0]);
 	//DEBUG::mostrarProcesso(vet_processos[1]);

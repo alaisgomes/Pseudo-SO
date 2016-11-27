@@ -14,3 +14,18 @@ void DEBUG::mostrarFilaPrioridadeZero() {
 		cout << proc.pid << " "<< '\n';
 	}
 }
+
+
+// Printar Memoria atual
+void DEBUG::mostrarMemoria() {
+
+	for (unsigned int i = 0; i < vet_memoria.size(); i++) {
+		if (vet_memoria[i] == -1)
+			cout << "# | ";
+		else
+			cout << vet_memoria[i] << " | ";
+	}
+
+
+	cout << '\n'; 
+}

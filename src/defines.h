@@ -11,8 +11,9 @@
 
 using namespace std;
 
-#define MAX_MEM 1024
+#define MAX_MEM 50
 #define QUANTUM 1
+#define INI_MEMORIA_USUARIO 25
 //===== VARIAVEIS
 
 typedef struct _proc {
@@ -78,6 +79,9 @@ namespace recursos_disp {
 
 extern vector<int> vet_memoria;
 
+extern vector<int> processos_novos;
+
+
 //===== CLASSES E METODOS
 
 class UTILS {
@@ -94,20 +98,31 @@ class DEBUG {
 	public:
 		static void mostrarProcesso(proc_t proc);
 		static void mostrarFilaPrioridadeZero();
+		static void mostrarMemoria();
 };
 
 class PROCESSOS {
 	public:
-		static int  verificaNovo(int clock, vector<int> pid_atual);
+		static int  verificaNovo(int clock);
 		static int  verificaExecucao();
 		static void atualizaPC(int pid);
 		static void atualizaEstado(int pid, int estado);
-		static int  verificaNaoFinalizados();
+		static int  verificaExisteMaisProcessos();
 };
 
 class RECURSOS {
 	public:
 		static int verificaRecurso(int pid);
+};
+
+class MEMORIA {
+	private:
+		static int verificaDisponivel(int size, int inicio);
+		static void realizaAlocacao (int bloco_inicial, int offset, int pid);
+	public: 
+		static void alocaMemoria();
+		static void removeMemoria(int pid);
+		static void desfragmentar();
 };
 
 #endif // DEFINE_H

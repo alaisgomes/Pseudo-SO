@@ -1,12 +1,11 @@
 #include "defines.h"
 
 
-
 //PUBLIC 
 
-//Verifica se existe algum processo "chegando" no tempo de clock atual, se sim, salva eles no vetor pid_atual e return 1
+//Verifica se existe algum processo "chegando" no tempo de clock atual, se sim, salva eles no vetor processos_novos e return 1
 // Caso contrario, retorna 0 apenas
-int PROCESSOS::verificaNovo(int clock, vector<int> pid_atual) {
+int PROCESSOS::verificaNovo(int clock) {
 	int j = 0;
 
 	for(unsigned int i = 0; i < vet_processos.size(); i++) {
@@ -14,14 +13,15 @@ int PROCESSOS::verificaNovo(int clock, vector<int> pid_atual) {
 		proc_t proc = vet_processos[i];
 
 		if(proc.inicializacao == clock) {
-
-			pid_atual.push_back(proc.pid);
+			processos_novos.push_back(proc.pid);
 			j++;
 		}
 	}
+	
 	if (j == 0)
 		return 0;
-	else
+	else 
+
 		return 1;
 }
 
@@ -49,11 +49,11 @@ void PROCESSOS::atualizaEstado(int pid, int estado){
 }
 
 
-int PROCESSOS::verificaNaoFinalizados() {
+int PROCESSOS::verificaExisteMaisProcessos() {
+	proc_t proc;
 	for(unsigned int i = 0; i < vet_processos.size(); i++) {
 
-		proc_t proc = vet_processos[i];
-
+		proc = vet_processos[i];
 		if(proc.estado != 2) {
 			return 1;
 		}
