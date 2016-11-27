@@ -1,0 +1,20 @@
+O que falta?
+
+FILAS/UTILS
+	- Inserir novo processo em fila correspondente a sua prioridade
+	 - Implementar atualização de filas quando um processo muda de prioridade
+	 - Remover processo de fila quando for executar
+	 - Mudar processo de lugar na fila quando ele tá esperando um recurso (tem que definir como isso vai funcionar)
+
+RECURSOS
+	- Alocar recurso
+	- Colocar processo da fila de respectivo recurso
+	- Liberar recurso
+
+PROCESSOS
+	- Atualizar prioridade
+
+MEMORIA (ja estou fazendo)
+	- Alocar memoria
+	- Desalocar Memoria
+	- Desfragmentar Memoria
