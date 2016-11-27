@@ -15,6 +15,5 @@ PROCESSOS
 	- Atualizar prioridade
 
 MEMORIA (ja estou fazendo)
-	- Alocar memoria
-	- Desalocar Memoria
+
 	- Desfragmentar Memoria
