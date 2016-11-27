@@ -13,6 +13,9 @@ proc_t UTILS::instVetorProcesso(vector<int> conf) {
 	proc.scanner = conf[6];
 	proc.modem = conf[7];
 	proc.disco = conf[8];
+	proc.estado = 0;
+	proc.bloc_ini = -1;
+	proc.pc = -1;
 	return proc;
 }
 
@@ -23,7 +26,8 @@ void UTILS::carregaProcesso(string arq) {
 
 	char* pch;
 	string var;
-	int linha=0;
+	int linha = 0;
+
 
 	vector<int> conf;
 

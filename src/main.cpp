@@ -6,9 +6,15 @@ vector<proc_t> vet_processos;
 vector<int> vet_memoria;
 queue<proc_t> fila_prioridade_zero;
 
-#define CLOCK 100000
+#define CLOCK 100000  
+
 
 int main(int argc, char **argv) {
+	
+	int clock_atual = 0; // É incrementado sempre que roda o loop
+	vector<int> pid_chegou;
+	int pid_exec;
+	
 
 	// Le arquivo de processos
 	string	arq;
@@ -26,23 +32,100 @@ int main(int argc, char **argv) {
 	// Carrega vetor de memoria
 	UTILS::inicializaMemoria();
 
-	// carrega processos na fila de prioridade um
-	UTILS::carregaFilaPrioridadeZero();
 
-	// Inicia processador
-	while(1) {
+
+
+	// Inicia Fluxo
+	while(PROCESSOS::verificaNaoFinalizados()) {
 		
+		//Ha novos processos? SIM
 		if(vet_processos.size() > 0) {
-			// reserva memoria
-			
+			if (PROCESSOS::verificaNovo(clock_atual, pid_chegou)) {
+				// aloca memoria
+				//MEMORIA::alocaMemoria(pid_chegou);
+
+				//poe na fila de processos
+				
+			}
+		
 		}
 
+		// Ha um processo em execucao? SIM
+		if ((pid_exec = PROCESSOS::verificaExecucao()) > -1) {
+
+			//Incrementa PC dele
+			PROCESSOS::atualizaPC(pid_exec);
+
+			
+	
+		}  else { // Nao ha um processo em execucao
+			//Verifica em Cada fila por um Processo returna o pid do proximo a ser executado pid_exec
+
+			//PRECISA DE RECURSO? SIM
+			if (RECURSOS::verificaRecurso(pid_exec)) {
+					//Verifica se recurso disponivel
+
+					// Se sim, aloca, se nao, poe processo na fla do recurso e atualiza fila de processos (?)
+
+
+			} else { // nao precisa de recurso
+				//atualiza fila
+
+				//coloca em execucao
+				PROCESSOS::atualizaEstado(pid_exec, 1);
+				PROCESSOS::atualizaPC(pid_exec);
+
+			}
+
+		}
+
+		//Acabou processo em execucao? SIM
+		if (vet_processos[pid_exec].pc == vet_processos[pid_exec].processador) {
+			//Marca  que terminou e libera processador
+			PROCESSOS::atualizaEstado(pid_exec, 2);
+
+			//libera memoria e dispositivos
+
+			//desfrag memoria
+
+
+		} else { // NAO
+
+
+			//Verifica se nao eh um processo em tempo real. Se for, pula atualizacoes
+			if (vet_processos[pid_exec].prioridade != 0) {
+
+				//Acabou o Quantum? SIM 
+				if ((vet_processos[pid_exec].pc % QUANTUM) == 0) {
+					
+						//diminui prioridadE
+
+						//poe de volta na fila
+
+						// devolve processador
+						PROCESSOS::atualizaEstado(pid_exec, 0);
+					} 
+
+			}
+
+		}
+
+
+		//incrementa clock
+		clock_atual++;
+		pid_chegou.clear();
+
+		//atualiza recursos
+
+
 		usleep(CLOCK);
-		break;
+
+
 	}
 
 	//DEBUG::mostrarProcesso(vet_processos[0]);
-//	DEBUG::mostrarFilaPrioridadeZero();
+	//DEBUG::mostrarProcesso(vet_processos[1]);
+	//DEBUG::mostrarFilaPrioridadeZero();
 
 	return 0;
 }

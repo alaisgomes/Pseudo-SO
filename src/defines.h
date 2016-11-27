@@ -11,8 +11,8 @@
 
 using namespace std;
 
-#define MAX_MEM 10
-
+#define MAX_MEM 1024
+#define QUANTUM 1
 //===== VARIAVEIS
 
 typedef struct _proc {
@@ -26,7 +26,7 @@ typedef struct _proc {
 	int scanner;
 	int modem;
 	int disco;
-	int estado;
+	int estado; // Em execucao = 1, nao executado = 0, finalizado = 2
 	int pc; //qual instrucao esta
 
 	// sobrecarregando o operador para que possa printar todas as variaveis
@@ -94,6 +94,20 @@ class DEBUG {
 	public:
 		static void mostrarProcesso(proc_t proc);
 		static void mostrarFilaPrioridadeZero();
+};
+
+class PROCESSOS {
+	public:
+		static int  verificaNovo(int clock, vector<int> pid_atual);
+		static int  verificaExecucao();
+		static void atualizaPC(int pid);
+		static void atualizaEstado(int pid, int estado);
+		static int  verificaNaoFinalizados();
+};
+
+class RECURSOS {
+	public:
+		static int verificaRecurso(int pid);
 };
 
 #endif // DEFINE_H
