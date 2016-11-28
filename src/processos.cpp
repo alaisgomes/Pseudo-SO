@@ -60,3 +60,19 @@ int PROCESSOS::verificaExisteMaisProcessos() {
 	}
 	return 0;
 }
+
+//Muda a prioridade do processo
+void PROCESSOS::mudaPrioridade(int pid) {
+	switch(vet_processos[pid].prioridade) {
+		case 0: //Prioridade nunca pode mudar
+			break;
+		case 1:
+			vet_processos[pid].prioridade = 2;
+			break;
+		case 2:
+			vet_processos[pid].prioridade = 3;
+			break;
+		case 3: //Se ja esta na ultima fila, soh fica.
+			break;
+	}
+}

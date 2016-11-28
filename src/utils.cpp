@@ -15,7 +15,7 @@ proc_t UTILS::instVetorProcesso(vector<int> conf) {
 	proc.disco = conf[8];
 	proc.estado = 0;
 	proc.bloc_ini = -1;
-	proc.pc = -1;
+	proc.pc = 0;
 	return proc;
 }
 
@@ -58,11 +58,83 @@ void UTILS::inicializaMemoria() {
 }
 
 // Carrega processos com prioridade zero na fila de prioridade zero
-void UTILS::carregaFilaPrioridadeZero() {
-	for(unsigned int i=0; i < vet_processos.size(); i++) {
-		proc_t proc = vet_processos[i];
-		if(proc.prioridade == 0) {
+// void UTILS::carregaFilaPrioridadeZero(proc_t proc) {
+
+// 	fila_prioridade_zero.push(proc);
+
+// }
+
+
+//Insere um processo na fila de processos
+void UTILS::insereProcessoFila(proc_t proc){
+	switch(proc.prioridade) {
+		case 0:
 			fila_prioridade_zero.push(proc);
-		}
+			break;
+		case 1:
+			fila_prioridade_um.push(proc);
+			break;
+		case 2:
+			fila_prioridade_dois.push(proc);
+			break;
+		case 3:
+			fila_prioridade_tres.push(proc);
+			break;
 	}
+}
+
+
+// Carrega processo em sua determinada fila inicial
+// cada processo só vai ser carregado no momento em que nele "chegar"
+void UTILS::carregaFilasPrioridades() {
+	for (unsigned int i = 0; i < processos_novos.size(); i++) {
+		proc_t proc  = vet_processos[processos_novos[i]];
+
+		UTILS::insereProcessoFila(proc);
+
+	}
+}
+
+// Remove processo da fila de processos correspondente
+void UTILS::removeProcessoFila(int pid) {
+	switch (vet_processos[pid].prioridade) {
+		case 0:
+			fila_prioridade_zero.pop();
+			break;
+		case 1:
+			fila_prioridade_um.pop();
+			break;
+		case 2:
+			fila_prioridade_dois.pop();
+			break;
+		case 3:
+			fila_prioridade_tres.pop();
+			break;
+	}
+}
+
+
+//Verifica filas para achar um processo para executar e retorna seu pid
+int UTILS::verificaProximoParaExecutar() {
+	proc_t proc;
+
+	if (!fila_prioridade_zero.empty()) {
+
+		proc = fila_prioridade_zero.front();
+
+	} else if (!fila_prioridade_um.empty()){
+
+		proc = fila_prioridade_um.front();
+
+
+	} else if (!fila_prioridade_dois.empty()){
+
+		proc = fila_prioridade_dois.front();
+
+	} else if (!fila_prioridade_tres.empty()){
+
+		proc = fila_prioridade_tres.front();
+	}
+
+	return proc.pid;
 }

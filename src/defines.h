@@ -79,6 +79,8 @@ namespace recursos_disp {
 
 extern vector<int> vet_memoria;
 
+// Vetor com processos novos a cada clock que "chegam"
+//Para facil manipulacao
 extern vector<int> processos_novos;
 
 
@@ -90,7 +92,11 @@ class UTILS {
 	public:
 		static void carregaProcesso(string arq);
 		static void inicializaMemoria();
-		static void carregaFilaPrioridadeZero();
+		//static void carregaFilaPrioridadeZero(proc_t proc);
+		static void carregaFilasPrioridades();
+		static void insereProcessoFila(proc_t proc);
+		static void removeProcessoFila(int pid);
+		static int verificaProximoParaExecutar();
 
 };
 
@@ -99,6 +105,8 @@ class DEBUG {
 		static void mostrarProcesso(proc_t proc);
 		static void mostrarFilaPrioridadeZero();
 		static void mostrarMemoria();
+		static void mostrarFilas();
+		static void mostraEstadoProcessos ();
 };
 
 class PROCESSOS {
@@ -108,6 +116,7 @@ class PROCESSOS {
 		static void atualizaPC(int pid);
 		static void atualizaEstado(int pid, int estado);
 		static int  verificaExisteMaisProcessos();
+		static void mudaPrioridade(int pid);
 };
 
 class RECURSOS {

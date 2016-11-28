@@ -5,6 +5,9 @@
 vector<proc_t> vet_processos;
 vector<int> vet_memoria;
 queue<proc_t> fila_prioridade_zero;
+queue<proc_t> fila_prioridade_um;
+queue<proc_t> fila_prioridade_dois;
+queue<proc_t> fila_prioridade_tres;
 
 vector<int> processos_novos;
 
@@ -13,7 +16,7 @@ vector<int> processos_novos;
 
 int main(int argc, char **argv) {
 
-	int clock_atual = 0; // É incrementado sempre que roda o loop
+	int clock_atual = 1; // É incrementado sempre que roda o loop
 	
 	int pid_exec = 0;
 	
@@ -47,7 +50,7 @@ int main(int argc, char **argv) {
 				MEMORIA::alocaMemoria();
 
 				//poe na fila de processos
-				
+				UTILS::carregaFilasPrioridades();
 			}
 		
 		}
@@ -55,6 +58,7 @@ int main(int argc, char **argv) {
 		// Ha um processo em execucao? SIM
 		
 		if ((pid_exec = PROCESSOS::verificaExecucao()) > -1) {
+			
 
 			//Incrementa PC dele
 			PROCESSOS::atualizaPC(pid_exec);
@@ -63,6 +67,7 @@ int main(int argc, char **argv) {
 	
 		}  else { // Nao ha um processo em execucao
 			//Verifica em Cada fila por um Processo returna o pid do proximo a ser executado pid_exec
+			pid_exec = UTILS::verificaProximoParaExecutar();
 
 			//PRECISA DE RECURSO? SIM
 			if (RECURSOS::verificaRecurso(pid_exec)) {
@@ -73,6 +78,7 @@ int main(int argc, char **argv) {
 
 			} else { // nao precisa de recurso
 				//atualiza fila
+				UTILS::removeProcessoFila(pid_exec);
 
 				//coloca em execucao
 				PROCESSOS::atualizaEstado(pid_exec, 1);
@@ -84,6 +90,7 @@ int main(int argc, char **argv) {
 
 		//Acabou processo em execucao? SIM
 		if (vet_processos[pid_exec].pc == vet_processos[pid_exec].processador) {
+			
 			//Marca  que terminou e libera processador
 			PROCESSOS::atualizaEstado(pid_exec, 2);
 
@@ -104,8 +111,10 @@ int main(int argc, char **argv) {
 				if ((vet_processos[pid_exec].pc % QUANTUM) == 0) {
 					
 						//diminui prioridadE
+						PROCESSOS::mudaPrioridade(pid_exec);
 
 						//poe de volta na fila
+						UTILS::insereProcessoFila(vet_processos[pid_exec]);
 
 						// devolve processador
 						PROCESSOS::atualizaEstado(pid_exec, 0);
@@ -125,13 +134,14 @@ int main(int argc, char **argv) {
 		
 		//usleep(CLOCK);
 
-
+		DEBUG::mostraEstadoProcessos ();
 		if (!PROCESSOS::verificaExisteMaisProcessos()) {
 			break;	
 		}
 
-		//DEBUG::mostrarMemoria();
-		
+		DEBUG::mostrarFilas();
+		DEBUG::mostrarMemoria();
+
 		getchar();
 	}
 	
