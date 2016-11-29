@@ -61,5 +61,22 @@ void MEMORIA::removeMemoria(int pid) {
 
 
 void MEMORIA::desfragmentar() {
+    int i, j;
+    for (i=INI_MEMORIA_USUARIO;i<MAX_MEM;i++){
+        if(vet_memoria[i]!=-1) //procura um espaço vazio
+            continue;
+        	//DEBUG::mostrarMemoria();
+        	//printf("%d\n", i);
+        for(j=i+1;j<MAX_MEM;j++){ //procura o proximo espaço ocupado
+            if(vet_memoria[j]!=-1){
+                vet_memoria[i]=vet_memoria[j]; //transfere para a parte vazia
+                vet_memoria[j]=-1; //libera a parte antiga
+
+              //  DEBUG::mostrarMemoria();
+                break;
+            }
+        }
+        
+    }
 
 }
