@@ -124,6 +124,7 @@ class PROCESSOS {
 class RECURSOS {
 	public:
 		static int verificaRecurso(int pid);
+		static void alocaRecurso(int pid);
 };
 
 class MEMORIA {

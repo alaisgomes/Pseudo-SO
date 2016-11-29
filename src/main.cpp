@@ -79,33 +79,45 @@ int main(int argc, char **argv) {
 			
 	
 		}  else { // Nao ha um processo em execucao
+			//procura um processo
 			//Verifica em Cada fila por um Processo returna o pid do proximo a ser executado pid_exec
-			pid_exec = UTILS::verificaProximoParaExecutar();
+			while(pid_exec==-1){
+				pid_exec = UTILS::verificaProximoParaExecutar();
 
-			//PRECISA DE RECURSO? SIM
-			if (PROCESSOS::verificaRecurso(pid_exec)) {
+				//PRECISA DE RECURSO? SIM
+				if (PROCESSOS::verificaRecurso(pid_exec)) {
 					//Verifica se recurso disponivel
 					if (RECURSOS::verificaRecurso(pid_exec)){
-						// Se sim, aloca
+						RECURSOS::alocaRecurso(pid_exec);
+						// Se sim, coloca em execucao
+						//atualiza fila
+						UTILS::removeProcessoFila(pid_exec);
+
+						//coloca em execucao
+						PROCESSOS::atualizaEstado(pid_exec, 1);
+						PROCESSOS::atualizaPC(pid_exec);
+
 					}
 					// se nao,verifica se eles esta bloqueado
 					if(PROCESSOS::verificaBloqueado(pid_exec)){
+						//coloca no final da fila 
 						
 					}
 					// poe processo na fla do recurso e atualiza fila de processos (?)
 
 
-			} else { // nao precisa de recurso
-				//atualiza fila
-				UTILS::removeProcessoFila(pid_exec);
+				} else { // nao precisa de recurso
+					//atualiza fila
+					UTILS::removeProcessoFila(pid_exec);
 
-				//coloca em execucao
-				PROCESSOS::atualizaEstado(pid_exec, 1);
-				PROCESSOS::atualizaPC(pid_exec);
+					//coloca em execucao
+					PROCESSOS::atualizaEstado(pid_exec, 1);
+					PROCESSOS::atualizaPC(pid_exec);
 
 			}
 
 		}
+	}
 
 		//Acabou processo em execucao? SIM
 		if (vet_processos[pid_exec].pc == vet_processos[pid_exec].processador) {
