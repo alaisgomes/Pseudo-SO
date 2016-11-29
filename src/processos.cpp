@@ -52,6 +52,10 @@ int PROCESSOS::verificaBloqueado(int pid){
 		return 1;
 	else return 0;
 }
+void PROCESSOS::bloqueiaProcesso(int pid){
+	vet_processos[pid].estado = 3;
+	return;
+}
 
 int PROCESSOS::verificaExisteMaisProcessos() {
 	proc_t proc;

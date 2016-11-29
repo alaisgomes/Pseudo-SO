@@ -42,7 +42,7 @@ void MEMORIA::alocaMemoria() {
 		if (bloco_inicial > -1) {
 			MEMORIA::realizaAlocacao (bloco_inicial, proc.offset, processos_novos[i]);
 		} else {
-			vet_processos[processos_novos[i]] = 2; //Se nao houver memoria, poe processo como finalizado, mas na vdd nem executado foi
+			vet_processos[processos_novos[i]].estado = 2; //Se nao houver memoria, poe processo como finalizado, mas na vdd nem executado foi
 		}
 		 
 	}

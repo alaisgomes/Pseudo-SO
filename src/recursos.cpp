@@ -9,8 +9,27 @@ int RECURSOS::verificaRecurso(int pid){
 		return 0;
 }
 
-int 
+
 
 void RECURSOS::alocaRecurso(int pid){
-	return;
+	//verifica os recursos necessarios ao processo e os aloca
+
+}
+
+void RECURSOS::insereFilaRecurso(int pid){
+	//aloca o id do processo nas filas de recurso que o processo pid precisa
+
+}
+
+void RECURSOS::liberaRecurso(int pid){
+	//libera os recursos usados pelo processo pid
+
+}
+
+void RECURSOS::atualizaRecurso(){
+	//atualiza os recursos vazios com os proximos da fila
+};
+
+void RECURSOS::inicializaRecurso(){
+	//poe -1 em cada recurso pra indicar que estão livres
 }

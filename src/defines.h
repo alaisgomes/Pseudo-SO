@@ -65,10 +65,10 @@ extern queue<proc_t> fila_prioridade_tres;
 } recursos_t;
 */
 
-extern queue<proc_t> fila_impressora;
-extern queue<proc_t> fila_scanner;
-extern queue<proc_t> fila_driver;
-extern queue<proc_t> fila_disco;
+extern queue<int> fila_impressora;
+extern queue<int> fila_scanner;
+extern queue<int> fila_driver;
+extern queue<int> fila_disco;
 
 namespace recursos_disp {
 	extern vector<int> impressora;
@@ -119,11 +119,16 @@ class PROCESSOS {
 		static void mudaPrioridade(int pid);
 		static int verificaRecurso(int pid);
 		static int verificaBloqueado(int pid);
+		static void bloqueiaProcesso(int pid);
 };
 
 class RECURSOS {
 	public:
 		static int verificaRecurso(int pid);
+		static void liberaRecurso(int pid);
+		static void atualizaRecurso();
+		static void inicializaRecurso();
+		static void insereFilaRecurso(int pid);
 		static void alocaRecurso(int pid);
 };
 
