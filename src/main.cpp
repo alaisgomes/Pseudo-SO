@@ -131,10 +131,8 @@ int main(int argc, char **argv) {
 
 		//atualiza recursos
 
-		
-		//usleep(CLOCK);
 
-		DEBUG::mostraEstadoProcessos ();
+		DEBUG::mostraEstadoProcessos();
 		if (!PROCESSOS::verificaExisteMaisProcessos()) {
 			break;	
 		}
