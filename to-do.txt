@@ -2,7 +2,8 @@ O que falta?
 
 FILAS/UTILS
 
-	 - Mudar processo de lugar na fila quando ele tá esperando um recurso (tem que definir como isso vai funcionar)
+	 - Mudar processo de lugar na fila quando ele tá esperando um recurso (tem que definir como isso vai funcionar) 
+	
 
 RECURSOS
 	- Alocar recurso
@@ -10,8 +11,5 @@ RECURSOS
 	- Liberar recurso
 
 PROCESSOS
-	- Arrumar um erro com atualização de estados
+	- Arrumar um erro com atualização de estados (
 
-MEMORIA (ja estou fazendo)
-
-	- Desfragmentar Memoria

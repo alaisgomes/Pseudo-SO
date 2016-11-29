@@ -45,8 +45,7 @@ void MEMORIA::alocaMemoria() {
 		if (bloco_inicial > -1) {
 			MEMORIA::realizaAlocacao (bloco_inicial, proc.offset, processos_novos[i]);
 		} else {
-			//Nao ha memoria disponivel, o que fazer?
-			// Poderia alterar o numero de inicializacao dele como se fosse (chegue no proximo clock e veja se tem memoria agora)
+			vet_processos[processos_novos[i]].estado = 2; //Se nao houver memoria, poe processo como finalizado, mas na vdd nem executado foi
 		}
 		 
 	}
