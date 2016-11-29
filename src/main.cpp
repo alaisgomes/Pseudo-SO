@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
 				UTILS::carregaFilasPrioridades();
 
 				//imprime insformações de inicialização
-				Processo::imprimeProcessosNovos();
+				
 			}
 		
 		}
@@ -85,8 +85,14 @@ int main(int argc, char **argv) {
 			//PRECISA DE RECURSO? SIM
 			if (PROCESSOS::verificaRecurso(pid_exec)) {
 					//Verifica se recurso disponivel
-
-					// Se sim, aloca, se nao, poe processo na fla do recurso e atualiza fila de processos (?)
+					if (RECURSOS::verificaRecurso(pid_exec)){
+						// Se sim, aloca
+					}
+					// se nao,verifica se eles esta bloqueado
+					if(PROCESSOS::verificaBloqueado(pid_exec)){
+						
+					}
+					// poe processo na fla do recurso e atualiza fila de processos (?)
 
 
 			} else { // nao precisa de recurso

@@ -47,7 +47,11 @@ void PROCESSOS::atualizaPC(int pid){
 void PROCESSOS::atualizaEstado(int pid, int estado){
 	vet_processos[pid].estado = estado;
 }
-
+int PROCESSOS::verificaBloqueado(int pid){
+	if(vet_processos[pid].estado == 3)
+		return 1;
+	else return 0;
+}
 
 int PROCESSOS::verificaExisteMaisProcessos() {
 	proc_t proc;
@@ -75,4 +79,11 @@ void PROCESSOS::mudaPrioridade(int pid) {
 		case 3: //Se ja esta na ultima fila, soh fica.
 			break;
 	}
+}
+
+int PROCESSOS::verificaRecurso(int pid){
+	if (vet_processos[pid].impressora > 0 || vet_processos[pid].scanner > 0 || vet_processos[pid].disco > 0 || vet_processos[pid].modem > 0) 
+		return 1;
+	else
+		return 0;
 }

@@ -27,7 +27,7 @@ typedef struct _proc {
 	int scanner;
 	int modem;
 	int disco;
-	int estado; // Em execucao = 1, nao executado = 0, finalizado = 2
+	int estado; // Em execucao = 1, nao executado = 0, finalizado = 2, bloqueado = 3.
 	int pc; //qual instrucao esta
 
 	// sobrecarregando o operador para que possa printar todas as variaveis
@@ -118,6 +118,7 @@ class PROCESSOS {
 		static int  verificaExisteMaisProcessos();
 		static void mudaPrioridade(int pid);
 		static int verificaRecurso(int pid);
+		static int verificaBloqueado(int pid);
 };
 
 class RECURSOS {
