@@ -23,7 +23,7 @@ vector<int> processos_novos;
 
 int main(int argc, char **argv) {
 
-	int clock_atual = 1; // É incrementado sempre que roda o loop
+	int clock_atual = 0; // É incrementado sempre que roda o loop
 	
 	int pid_exec = 0;
 	
@@ -49,14 +49,13 @@ int main(int argc, char **argv) {
 	// Inicia Fluxo
 	while(1) {
 		
-		//Ha novos processos? SIM
+		
 		if(vet_processos.size() > 0) {
 
+			//Ha novos processos? SIM
 			if (PROCESSOS::verificaNovo(clock_atual)) {
-
-
 			
-				// aloca memoria
+				// aloca memoria se houver
 				MEMORIA::alocaMemoria();
 
 				//poe na fila de processos
@@ -66,30 +65,45 @@ int main(int argc, char **argv) {
 				
 			}
 		
-		}
-
-		// Ha um processo em execucao? SIM
 		
-		if ((pid_exec = PROCESSOS::verificaExecucao()) > -1) {
-			
 
-			//Incrementa PC dele
-			PROCESSOS::atualizaPC(pid_exec);
+			// Ha um processo em execucao? SIM
+			if ((pid_exec = PROCESSOS::verificaExecucao()) > -1) {
+				
+				//Incrementa PC dele
+				PROCESSOS::atualizaPC(pid_exec);
 
-			
-	
-		}  else { // Nao ha um processo em execucao
-			//procura um processo
-			//Verifica em Cada fila por um Processo returna o pid do proximo a ser executado pid_exec
-			while(pid_exec==-1){
-				pid_exec = UTILS::verificaProximoParaExecutar();
+				
+		
+			}  else { // Nao ha um processo em execucao
+				//procura um processo
+				//Verifica em Cada fila por um Processo returna o pid do proximo a ser executado pid_exec
+				while(pid_exec==-1){
+					pid_exec = UTILS::verificaProximoParaExecutar();
 
-				//PRECISA DE RECURSO? SIM
-				if (PROCESSOS::verificaRecurso(pid_exec)) {
-					//Verifica se recurso disponivel
-					if (RECURSOS::verificaRecurso(pid_exec)){
-						RECURSOS::alocaRecurso(pid_exec);
-						// Se sim, coloca em execucao
+					//PRECISA DE RECURSO? SIM
+					if (PROCESSOS::verificaRecurso(pid_exec)) {
+						//Verifica se recurso disponivel
+						if (RECURSOS::verificaRecurso(pid_exec)){
+							RECURSOS::alocaRecurso(pid_exec);
+							// Se sim, coloca em execucao
+							//atualiza fila
+							UTILS::removeProcessoFila(pid_exec);
+
+							//coloca em execucao
+							PROCESSOS::atualizaEstado(pid_exec, 1);
+							PROCESSOS::atualizaPC(pid_exec);
+
+						}
+						// se nao,verifica se eles esta bloqueado
+						if(PROCESSOS::verificaBloqueado(pid_exec)){
+							//coloca no final da fila 
+							
+						}
+						// poe processo na fla do recurso e atualiza fila de processos (?)
+
+
+					} else { // nao precisa de recurso
 						//atualiza fila
 						UTILS::removeProcessoFila(pid_exec);
 
@@ -98,83 +112,69 @@ int main(int argc, char **argv) {
 						PROCESSOS::atualizaPC(pid_exec);
 
 					}
-					// se nao,verifica se eles esta bloqueado
-					if(PROCESSOS::verificaBloqueado(pid_exec)){
-						//coloca no final da fila 
+
+				}
+			}
+
+			//Acabou processo em execucao? SIM
+			if (vet_processos[pid_exec].pc == vet_processos[pid_exec].processador) {
+				
+				//Marca  que terminou e libera processador
+				PROCESSOS::atualizaEstado(pid_exec, 2);
+
+				//libera memoria e dispositivos
+				MEMORIA::removeMemoria(pid_exec);
+
+				//desfrag memoria
+				MEMORIA::desfragmentar();
+
+
+
+			} else { // NAO
+
+
+				//Verifica se nao eh um processo em tempo real. Se for, pula atualizacoes
+				if (vet_processos[pid_exec].prioridade != 0) {
+
+					//Acabou o Quantum? SIM 
+					if ((vet_processos[pid_exec].pc % QUANTUM) == 0) {
 						
-					}
-					// poe processo na fla do recurso e atualiza fila de processos (?)
+							//diminui prioridadE
+							PROCESSOS::mudaPrioridade(pid_exec);
 
+							//poe de volta na fila
+							UTILS::insereProcessoFila(vet_processos[pid_exec]);
 
-				} else { // nao precisa de recurso
-					//atualiza fila
-					UTILS::removeProcessoFila(pid_exec);
+							// devolve processador
+							PROCESSOS::atualizaEstado(pid_exec, 0);
+						} 
 
-					//coloca em execucao
-					PROCESSOS::atualizaEstado(pid_exec, 1);
-					PROCESSOS::atualizaPC(pid_exec);
+				}
 
 			}
 
-		}
-	}
 
-		//Acabou processo em execucao? SIM
-		if (vet_processos[pid_exec].pc == vet_processos[pid_exec].processador) {
+			//incrementa clock
+			clock_atual++;
+			processos_novos.clear();
+
+			//atualiza recursos
+
 			
-			//Marca  que terminou e libera processador
-			PROCESSOS::atualizaEstado(pid_exec, 2);
+			//usleep(CLOCK);
 
-			//libera memoria e dispositivos
-			MEMORIA::removeMemoria(pid_exec);
-
-			//desfrag memoria
-			MEMORIA::desfragmentar();
-
-
-
-		} else { // NAO
-
-
-			//Verifica se nao eh um processo em tempo real. Se for, pula atualizacoes
-			if (vet_processos[pid_exec].prioridade != 0) {
-
-				//Acabou o Quantum? SIM 
-				if ((vet_processos[pid_exec].pc % QUANTUM) == 0) {
-					
-						//diminui prioridadE
-						PROCESSOS::mudaPrioridade(pid_exec);
-
-						//poe de volta na fila
-						UTILS::insereProcessoFila(vet_processos[pid_exec]);
-
-						// devolve processador
-						PROCESSOS::atualizaEstado(pid_exec, 0);
-					} 
-
+			DEBUG::mostraEstadoProcessos ();
+			if (!PROCESSOS::verificaExisteMaisProcessos()) {
+				break;	
 			}
 
-		}
+			DEBUG::mostrarFilas();
+			DEBUG::mostrarMemoria();
 
+			getchar();
 
-		//incrementa clock
-		clock_atual++;
-		processos_novos.clear();
-
-		//atualiza recursos
-
-		
-		//usleep(CLOCK);
-
-		DEBUG::mostraEstadoProcessos ();
-		if (!PROCESSOS::verificaExisteMaisProcessos()) {
-			break;	
-		}
-
-		DEBUG::mostrarFilas();
-		DEBUG::mostrarMemoria();
-
-		getchar();
+		} else //Se nao houver nada no arquivo, soh finaliza
+			break;
 	}
 	
 
