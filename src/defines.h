@@ -117,6 +117,7 @@ class PROCESSOS {
 		static void atualizaEstado(int pid, int estado);
 		static int  verificaExisteMaisProcessos();
 		static void mudaPrioridade(int pid);
+		static int verificaRecurso(int pid);
 };
 
 class RECURSOS {

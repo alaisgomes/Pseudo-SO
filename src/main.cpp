@@ -1,5 +1,5 @@
 #include "defines.h"
-#include <unistd.h>
+//#include <unistd.h>
 
 // Instanciado uma vez variavel extern
 vector<proc_t> vet_processos;
@@ -8,6 +8,13 @@ queue<proc_t> fila_prioridade_zero;
 queue<proc_t> fila_prioridade_um;
 queue<proc_t> fila_prioridade_dois;
 queue<proc_t> fila_prioridade_tres;
+
+queue<proc_t> fila_impressora;
+queue<proc_t> fila_scanner;
+queue<proc_t> fila_driver;
+queue<proc_t> fila_disco;
+
+
 
 vector<int> processos_novos;
 
@@ -35,6 +42,7 @@ int main(int argc, char **argv) {
 	// Carrega vetor de processos
 	UTILS::carregaProcesso(arq.data());
 
+   
 	// Carrega vetor de memoria
 	UTILS::inicializaMemoria();
 	
@@ -46,11 +54,16 @@ int main(int argc, char **argv) {
 
 			if (PROCESSOS::verificaNovo(clock_atual)) {
 
+
+			
 				// aloca memoria
 				MEMORIA::alocaMemoria();
 
 				//poe na fila de processos
 				UTILS::carregaFilasPrioridades();
+
+				//imprime insformações de inicialização
+				Processo::imprimeProcessosNovos();
 			}
 		
 		}
@@ -70,7 +83,7 @@ int main(int argc, char **argv) {
 			pid_exec = UTILS::verificaProximoParaExecutar();
 
 			//PRECISA DE RECURSO? SIM
-			if (RECURSOS::verificaRecurso(pid_exec)) {
+			if (PROCESSOS::verificaRecurso(pid_exec)) {
 					//Verifica se recurso disponivel
 
 					// Se sim, aloca, se nao, poe processo na fla do recurso e atualiza fila de processos (?)
@@ -99,6 +112,7 @@ int main(int argc, char **argv) {
 
 			//desfrag memoria
 			MEMORIA::desfragmentar();
+
 
 
 		} else { // NAO
