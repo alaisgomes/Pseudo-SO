@@ -11,12 +11,12 @@ queue<proc_t> fila_prioridade_tres;
 
 queue<int> fila_impressora;
 queue<int> fila_scanner;
-queue<int> fila_driver;
+queue<int> fila_modem;
 queue<int> fila_disco;
 
 vector<int> impressora;
 vector<int> disco;
-int driver, scanner;
+int modem, scanner;
 
 
 vector<int> processos_novos;
@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
 
 	int clock_atual = 1; // É incrementado sempre que roda o loop
 	
-	int pid_exec = 0;
+	int pid_exec;
 	
 
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
 			}
 		
 		}
-
+		
 		// Ha um processo em execucao? SIM
 		
 		if ((pid_exec = PROCESSOS::verificaExecucao()) > -1) {
@@ -81,15 +81,18 @@ int main(int argc, char **argv) {
 
 			//Incrementa PC dele
 			PROCESSOS::atualizaPC(pid_exec);
+			DEBUG::mostrarProcesso(vet_processos[pid_exec]);
 
 			
 	
 		}  else { // Nao ha um processo em execucao
 			//procura um processo
 			//Verifica em Cada fila por um Processo returna o pid do proximo a ser executado pid_exec
-			while(pid_exec==0){
+			printf("pid = %d", pid_exec);
+			while(pid_exec  <=0){
+		
 				pid_exec = UTILS::verificaProximoParaExecutar();
-
+			
 				//PRECISA DE RECURSO? SIM
 				if (PROCESSOS::verificaRecurso(pid_exec)) {
 					//RECURSO DISPONIVEL? SIM
@@ -121,7 +124,7 @@ int main(int argc, char **argv) {
 						//poe de volta na fila
 						UTILS::insereProcessoFila(vet_processos[pid_exec]);
 						
-						
+						pid_exec=0;
 					
 					}
 				} else { // nao precisa de recurso
@@ -131,6 +134,7 @@ int main(int argc, char **argv) {
 					//coloca em execucao
 					PROCESSOS::atualizaEstado(pid_exec, 1);
 					PROCESSOS::atualizaPC(pid_exec);
+					UTILS::removeProcessoFila(pid_exec);
 
 			}
 
@@ -169,6 +173,7 @@ int main(int argc, char **argv) {
 
 						// devolve processador
 						PROCESSOS::atualizaEstado(pid_exec, 0);
+						
 					} 
 
 			}

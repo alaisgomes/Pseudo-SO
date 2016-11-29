@@ -67,15 +67,15 @@ extern queue<proc_t> fila_prioridade_tres;
 
 extern queue<int> fila_impressora;
 extern queue<int> fila_scanner;
-extern queue<int> fila_driver;
+extern queue<int> fila_modem;
 extern queue<int> fila_disco;
 
-namespace recursos_disp {
+
 	extern vector<int> impressora;
 	extern vector<int> disco;
 	extern int scanner;
-	extern int driver;
-}
+	extern int modem;
+
 
 extern vector<int> vet_memoria;
 
