@@ -2,9 +2,9 @@
 
 //PRIVATE
 // Verifica se existe a quantidade blocos que o processo necessita "size". Caso tenha, retorna o endereco do primeior bloco disponivel. Caso nao, retorna -1
-int MEMORIA::verificaDisponivel(int size, int inicio) {
+int MEMORIA::verificaDisponivel(int size, int inicio, unsigned int fim) {
 	int j = 0; 
-	for (unsigned int i = inicio; i < vet_memoria.size(); i++ ){
+	for (unsigned int i = inicio; i < fim; i++ ){
 		if (vet_memoria[i] == -1)
 			j++;
 		else
@@ -36,9 +36,9 @@ void MEMORIA::alocaMemoria() {
 		//Se for processo em tempo real comeca do 0, se nao, comeca do inicio determinado pra memoria de usuario
 		if (proc.prioridade == 0) {
 
-			bloco_inicial = MEMORIA::verificaDisponivel(proc.offset, 0);
+			bloco_inicial = MEMORIA::verificaDisponivel(proc.offset, 0, INI_MEMORIA_USUARIO);
 		} else {
-			bloco_inicial = MEMORIA::verificaDisponivel(proc.offset, INI_MEMORIA_USUARIO);
+			bloco_inicial = MEMORIA::verificaDisponivel(proc.offset, INI_MEMORIA_USUARIO, vet_memoria.size());
 		}
 
 
@@ -46,6 +46,8 @@ void MEMORIA::alocaMemoria() {
 			MEMORIA::realizaAlocacao (bloco_inicial, proc.offset, processos_novos[i]);
 		} else {
 			vet_processos[processos_novos[i]].estado = 2; //Se nao houver memoria, poe processo como finalizado, mas na vdd nem executado foi
+			OUTPUT::mensagemRecusaProcesso(processos_novos[i]) ;
+
 		}
 		 
 	}

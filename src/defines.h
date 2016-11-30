@@ -135,7 +135,7 @@ class RECURSOS {
 
 class MEMORIA {
 	private:
-		static int verificaDisponivel(int size, int inicio);
+		static int verificaDisponivel(int size, int inicio, unsigned int fim);
 		static void realizaAlocacao (int bloco_inicial, int offset, int pid);
 	public: 
 		static void alocaMemoria();
@@ -147,6 +147,7 @@ class OUTPUT {
 	public:
 		static void mostraDispatcher();
 		static void mostraExecucaoAtual(int pid);
+		static void mensagemRecusaProcesso(int pid);
 };
 
 #endif // DEFINE_H
