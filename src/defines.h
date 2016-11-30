@@ -142,4 +142,10 @@ class MEMORIA {
 		static void desfragmentar();
 };
 
+class OUTOUT {
+	public:
+		static void OUTPUT::mostraDispatcher();
+		static void OUTPUT::mostraExecucaoAtual(int pid);
+};
+
 #endif // DEFINE_H
