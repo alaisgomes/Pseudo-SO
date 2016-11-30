@@ -11,9 +11,9 @@
 
 using namespace std;
 
-#define MAX_MEM 50
+#define MAX_MEM 1024
 #define QUANTUM 1
-#define INI_MEMORIA_USUARIO 25
+#define INI_MEMORIA_USUARIO 64
 //===== VARIAVEIS
 
 typedef struct _proc {
