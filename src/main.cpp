@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
 
 	int clock_atual = 1; // É incrementado sempre que roda o loop
 	
-	int pid_exec = 0;
+	int pid_exec = -1;
 	
 
 

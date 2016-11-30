@@ -6,7 +6,7 @@ void OUTPUT::mostraDispatcher() {
 		proc_t proc = vet_processos[processos_novos[i]];
 		if (proc.estado != 2) {
 			cout << "dispatcher =>\n";
-			cout << "\tPID: " << proc.pid + 1 << "\n";
+			cout << "\tPID: " << proc.pid << "\n";
 			cout << "\toffset: " << proc.bloc_ini << "\n";
 			cout << "\tblocks: " << proc.offset << "\n";
 			cout << "\tpriority: " << proc.prioridade << "\n";
@@ -24,13 +24,13 @@ void OUTPUT::mostraExecucaoAtual(int pid) {
 	proc_t proc = vet_processos[pid];
 
 	if (proc.pc == 1) {
-		cout<<"P"<< pid + 1 << "  STARTED\n";
-		cout<<"P"<< pid + 1 << "  Instruction 1\n";
+		cout<<"P"<< pid  << "  STARTED\n";
+		cout<<"P"<< pid  << "  Instruction 1\n";
 	} else 	if (proc.pc == proc.processador) {
-		cout<<"P"<< pid + 1 << "  Instruction " << proc.pc << "\n";
-		cout<<"P"<< pid + 1 << "  return SIGINT \n";
+		cout<<"P"<< pid << "  Instruction " << proc.pc << "\n";
+		cout<<"P"<< pid << "  return SIGINT \n";
 	} else {
-		cout<<"P"<< pid + 1  << " Instruction " << proc.pc << "\n";
+		cout<<"P"<< pid  << " Instruction " << proc.pc << "\n";
 
 	}
 }
