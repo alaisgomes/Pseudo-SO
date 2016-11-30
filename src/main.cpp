@@ -160,7 +160,7 @@ int main(int argc, char **argv) {
 			
 			//libera memoria e dispositivos
 			MEMORIA::removeMemoria(pid_exec);
-			//DEBUG::mostraRecursos();
+			DEBUG::mostraRecursos();
 			RECURSOS::liberaRecurso(pid_exec);
 
 			//desfrag memoria
