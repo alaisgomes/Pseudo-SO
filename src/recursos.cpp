@@ -43,20 +43,21 @@ void RECURSOS::alocaRecurso(int pid){
 
 	if (vet_processos[pid].impressora==1){
 		//verifica se as impressoras estao ocupadas
-		if(impressora[0]==-1)
+		if(impressora[0]==-1&&impressora[1]!=pid)
 			impressora[0]=pid;
-		else if (impressora[1]==-1)
+		else
+			if(impressora[1]==-1&&impressora[0]!=pid)
 			impressora[1]=pid;
 	}
 
-	if (vet_processos[pid].disco==1){
+if (vet_processos[pid].disco==1){
 		//verifica se as impressoras estao ocupadas
-		if(disco[0]==-1)
+		if(disco[0]==-1&&disco[1]!=pid)
 			disco[0]=pid;
-		else if (disco[1]==-1)
+		else
+			if(disco[1]==-1&&disco[0]!=pid)
 			disco[1]=pid;
 	}
-
 		
 	if (vet_processos[pid].modem==1){
 		//verifica se os discos estao ocupadas
@@ -103,7 +104,7 @@ void RECURSOS::liberaRecurso(int pid){
 		//verifica se as impressoras estao ocupadas
 		if(impressora[0]==pid)
 			impressora[0]=-1;
-		else if (impressora[1]==pid)
+		if (impressora[1]==pid)
 			impressora[1]=-1;
 	}
 

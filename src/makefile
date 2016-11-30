@@ -14,11 +14,16 @@ debug.o: debug.cpp defines.h
 utils.o: utils.cpp defines.h
 	g++ -c -Wall utils.cpp
 
+output.o: output.cpp defines.h
+	g++ -c -Wall output.cpp
+
 main.o: main.cpp defines.h
 	g++ -c -Wall main.cpp
 
-prog: utils.o main.o debug.o processos.o recursos.o memoria.o
-	g++ -g -Wall main.o utils.o debug.o processos.o recursos.o memoria.o -o simulacao
+
+
+prog: utils.o main.o debug.o processos.o recursos.o memoria.o output.o
+	g++ -g -Wall main.o utils.o debug.o processos.o recursos.o memoria.o output.o -o simulacao
 
 clean:
 	rm -f *.o

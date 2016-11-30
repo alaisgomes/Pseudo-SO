@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
 	
 	// Inicia Fluxo
 	while(1) {
-		
+		//DEBUG::mostraRecursos();
 		//Ha novos processos? SIM
 		if(vet_processos.size() > 0) {
 
@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
 
 				//poe na fila de processos
 				UTILS::carregaFilasPrioridades();
-
+				OUTPUT::mostraDispatcher();
 				//imprime insformações de inicialização
 				
 			}
@@ -83,6 +83,7 @@ int main(int argc, char **argv) {
 
 			//Incrementa PC dele
 			PROCESSOS::atualizaPC(pid_exec);
+			OUTPUT::mostraExecucaoAtual(pid_exec);
 		//	DEBUG::mostrarProcesso(vet_processos[pid_exec]);
 
 			
@@ -95,11 +96,11 @@ int main(int argc, char **argv) {
 			
 				pid_exec = UTILS::verificaProximoParaExecutar();
 
-				DEBUG::mostrarProcesso(vet_processos[pid_exec]);
+				//DEBUG::mostrarProcesso(vet_processos[pid_exec]);
 				//PRECISA DE RECURSO? SIM
 				
 				if (PROCESSOS::verificaRecurso(pid_exec)) {
-					printf("%s\n","entrou" );
+					
 					//RECURSO DISPONIVEL? SIM
 					if (RECURSOS::verificaRecurso(pid_exec)){
 						
@@ -112,6 +113,7 @@ int main(int argc, char **argv) {
 						//coloca em execucao
 						PROCESSOS::atualizaEstado(pid_exec, 1);
 						PROCESSOS::atualizaPC(pid_exec);
+						OUTPUT::mostraExecucaoAtual(pid_exec);
 
 					}//NAO
 					else{
@@ -141,6 +143,7 @@ int main(int argc, char **argv) {
 					//coloca em execucao
 					PROCESSOS::atualizaEstado(pid_exec, 1);
 					PROCESSOS::atualizaPC(pid_exec);
+					OUTPUT::mostraExecucaoAtual(pid_exec);
 					UTILS::removeProcessoFila(pid_exec);
 
 					
@@ -160,7 +163,7 @@ int main(int argc, char **argv) {
 			
 			//libera memoria e dispositivos
 			MEMORIA::removeMemoria(pid_exec);
-			DEBUG::mostraRecursos();
+			
 			RECURSOS::liberaRecurso(pid_exec);
 
 			//desfrag memoria
@@ -200,13 +203,13 @@ int main(int argc, char **argv) {
 		RECURSOS::atualizaRecurso();
 		
 
-		DEBUG::mostraEstadoProcessos();
+		//DEBUG::mostraEstadoProcessos();
 		if (!PROCESSOS::verificaExisteMaisProcessos()) {
 			break;	
 		}
 
-		DEBUG::mostrarFilas();
-		DEBUG::mostrarMemoria();
+//		DEBUG::mostrarFilas();
+//		DEBUG::mostrarMemoria();
 
 		getchar();
 	}
