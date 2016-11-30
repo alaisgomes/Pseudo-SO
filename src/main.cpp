@@ -56,6 +56,7 @@ int main(int argc, char **argv) {
 	
 	// Inicia Fluxo
 	while(1) {
+		pid_exec = -1;
 		
 		//Ha novos processos? SIM
 		if(vet_processos.size() > 0) {
