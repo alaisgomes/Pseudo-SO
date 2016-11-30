@@ -213,8 +213,8 @@ int main(int argc, char **argv) {
 			}
 
 			//DEBUG::mostrarFilas();
-			DEBUG::mostraEstadoProcessos();
-			DEBUG::mostrarMemoria();
+			//DEBUG::mostraEstadoProcessos();
+			//DEBUG::mostrarMemoria();
 
 			getchar();
 
