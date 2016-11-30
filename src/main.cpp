@@ -116,7 +116,6 @@ int main(int argc, char **argv) {
 							PROCESSOS::atualizaPC(pid_exec);
 							//IMPRIME INSFORMACOES
 							OUTPUT::mostraExecucaoAtual(pid_exec);
-1
 
 						}//NAO
 						else{
