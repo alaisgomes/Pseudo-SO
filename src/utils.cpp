@@ -53,7 +53,7 @@ void UTILS::carregaProcesso(string arq) {
 
 // Inicializa memoria colocando -1 em todos arrays do vetor
 void UTILS::inicializaMemoria() {
-	for(int i; i < MAX_MEM; i++) {
+	for(int i=0; i < MAX_MEM; i++) {
 		vet_memoria.push_back(-1);
 	}
 }

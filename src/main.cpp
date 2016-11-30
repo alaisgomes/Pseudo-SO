@@ -124,7 +124,7 @@ int main(int argc, char **argv) {
 						//poe de volta na fila
 						UTILS::insereProcessoFila(vet_processos[pid_exec]);
 						
-						pid_exec=0;
+						pid_exec =-1;
 					
 					}
 				} else { // nao precisa de recurso
