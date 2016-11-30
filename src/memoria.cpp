@@ -90,8 +90,7 @@ void MEMORIA::desfragmentar() {
 
     for (i=INI_MEMORIA_USUARIO;vet_memoria[i]!=-1;){
     	int aux=vet_memoria[i];
-    	printf("%d pid \n", aux);
-    	printf("%d i \n", i);
+    	
     	vet_processos[aux].bloc_ini=i;
     	while(vet_memoria[i]==aux)
     		i++;

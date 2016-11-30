@@ -43,7 +43,7 @@ void UTILS::carregaProcesso(string arq) {
 			}
 			proc_t proc = instVetorProcesso(conf);
 			vet_processos.push_back(proc);
-			DEBUG::mostrarProcesso(proc);
+			
 		}
 		conf.clear();
 	}	

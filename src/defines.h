@@ -71,12 +71,12 @@ extern queue<int> fila_modem;
 extern queue<int> fila_disco;
 
 
+
 	extern vector<int> impressora;
 	extern vector<int> disco;
 	extern int scanner;
 	extern int modem;
-
-
+	
 extern vector<int> vet_memoria;
 
 // Vetor com processos novos a cada clock que "chegam"
@@ -107,6 +107,7 @@ class DEBUG {
 		static void mostrarMemoria();
 		static void mostrarFilas();
 		static void mostraEstadoProcessos ();
+		static void mostraRecursos();
 };
 
 class PROCESSOS {

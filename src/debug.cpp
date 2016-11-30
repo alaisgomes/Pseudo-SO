@@ -81,3 +81,8 @@ void DEBUG::mostraEstadoProcessos() {
 	}
 	cout << "\n";
 }
+
+void DEBUG::mostraRecursos(){
+	printf("impressora 1: %dimpressora 2: %ddisco 1: %d\n disco 2 %d scanner: %d modem %d\n ", impressora[0], impressora[1],
+	 disco[0], disco[1], scanner, modem);
+}

@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
 
 	int clock_atual = 1; // É incrementado sempre que roda o loop
 	
-	int pid_exec;
+	int pid_exec=0;
 	
 
 
@@ -50,7 +50,9 @@ int main(int argc, char **argv) {
 	UTILS::inicializaMemoria();
 
 	// Inicializa recursos
-//	RECURSOS::inicializaRecurso();
+
+	RECURSOS::inicializaRecurso();
+
 	
 	// Inicia Fluxo
 	while(1) {
@@ -89,12 +91,15 @@ int main(int argc, char **argv) {
 			//procura um processo
 			//Verifica em Cada fila por um Processo returna o pid do proximo a ser executado pid_exec
 			
-			while(pid_exec  <=0){
-		
-				pid_exec = UTILS::verificaProximoParaExecutar();
+			while(pid_exec  <0){
 			
+				pid_exec = UTILS::verificaProximoParaExecutar();
+
+				DEBUG::mostrarProcesso(vet_processos[pid_exec]);
 				//PRECISA DE RECURSO? SIM
+				
 				if (PROCESSOS::verificaRecurso(pid_exec)) {
+					printf("%s\n","entrou" );
 					//RECURSO DISPONIVEL? SIM
 					if (RECURSOS::verificaRecurso(pid_exec)){
 						
@@ -124,20 +129,26 @@ int main(int argc, char **argv) {
 						//poe de volta na fila
 						UTILS::insereProcessoFila(vet_processos[pid_exec]);
 						
-						pid_exec =-1;
+					
 					
 					}
 				} else { // nao precisa de recurso
 					//atualiza fila
-
+					printf("%s\n", "nao entroi" );
+					
+				
 
 					//coloca em execucao
 					PROCESSOS::atualizaEstado(pid_exec, 1);
 					PROCESSOS::atualizaPC(pid_exec);
 					UTILS::removeProcessoFila(pid_exec);
 
-			}
+					
 
+
+			}
+				
+				
 		}
 	}
 
@@ -146,9 +157,10 @@ int main(int argc, char **argv) {
 			
 			//Marca  que terminou e libera processador
 			PROCESSOS::atualizaEstado(pid_exec, 2);
-
+			
 			//libera memoria e dispositivos
 			MEMORIA::removeMemoria(pid_exec);
+			//DEBUG::mostraRecursos();
 			RECURSOS::liberaRecurso(pid_exec);
 
 			//desfrag memoria
@@ -184,9 +196,9 @@ int main(int argc, char **argv) {
 		//incrementa clock
 		clock_atual++;
 		processos_novos.clear();
-
+		
 		RECURSOS::atualizaRecurso();
-
+		
 
 		DEBUG::mostraEstadoProcessos();
 		if (!PROCESSOS::verificaExisteMaisProcessos()) {
