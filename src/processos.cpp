@@ -25,7 +25,7 @@ int PROCESSOS::verificaNovo(int clock) {
 		return 1;
 }
 
-//Verifica se processo esta executando. Retorna: seu pid se sim sim, -1 nao
+//Verifica se processo esta executando. Retorna: seu pid se sim, -1 nao
 int PROCESSOS::verificaExecucao(){
 	for(unsigned int i = 0; i < vet_processos.size(); i++) {
 
@@ -85,9 +85,11 @@ void PROCESSOS::mudaPrioridade(int pid) {
 	}
 }
 
+
 int PROCESSOS::verificaRecurso(int pid){
 	if (vet_processos[pid].impressora > 0 || vet_processos[pid].scanner > 0 || vet_processos[pid].disco > 0 || vet_processos[pid].modem > 0) 
 		return 1;
 	else
 		return 0;
 }
+

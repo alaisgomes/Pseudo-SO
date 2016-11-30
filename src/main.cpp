@@ -41,16 +41,16 @@ int main(int argc, char **argv) {
 	else {
 		arq.assign(argv[1]);
 	}
-
+	
 	// Carrega vetor de processos
 	UTILS::carregaProcesso(arq.data());
-
+	
    
 	// Carrega vetor de memoria
 	UTILS::inicializaMemoria();
 
 	// Inicializa recursos
-	RECURSOS::inicializaRecurso();
+//	RECURSOS::inicializaRecurso();
 	
 	// Inicia Fluxo
 	while(1) {
@@ -81,14 +81,14 @@ int main(int argc, char **argv) {
 
 			//Incrementa PC dele
 			PROCESSOS::atualizaPC(pid_exec);
-			DEBUG::mostrarProcesso(vet_processos[pid_exec]);
+		//	DEBUG::mostrarProcesso(vet_processos[pid_exec]);
 
 			
 	
 		}  else { // Nao ha um processo em execucao
 			//procura um processo
 			//Verifica em Cada fila por um Processo returna o pid do proximo a ser executado pid_exec
-			printf("pid = %d", pid_exec);
+			
 			while(pid_exec  <=0){
 		
 				pid_exec = UTILS::verificaProximoParaExecutar();
@@ -187,10 +187,8 @@ int main(int argc, char **argv) {
 
 		RECURSOS::atualizaRecurso();
 
-		
-		//usleep(CLOCK);
 
-		DEBUG::mostraEstadoProcessos ();
+		DEBUG::mostraEstadoProcessos();
 		if (!PROCESSOS::verificaExisteMaisProcessos()) {
 			break;	
 		}

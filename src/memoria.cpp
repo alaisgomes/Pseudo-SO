@@ -1,6 +1,7 @@
 #include "defines.h"
 
 //PRIVATE
+// Verifica se existe a quantidade blocos que o processo necessita "size". Caso tenha, retorna o endereco do primeior bloco disponivel. Caso nao, retorna -1
 int MEMORIA::verificaDisponivel(int size, int inicio) {
 	int j = 0; 
 	for (unsigned int i = inicio; i < vet_memoria.size(); i++ ){
@@ -15,6 +16,8 @@ int MEMORIA::verificaDisponivel(int size, int inicio) {
 
 }
 
+// PUBLIC
+// Preenche a memoria com o o pid do processo
 void MEMORIA::realizaAlocacao (int bloco_inicial, int offset, int pid) {
 	for (int i = bloco_inicial; i < bloco_inicial+offset; i++) {
 		vet_memoria[i] = pid;

@@ -132,38 +132,41 @@ void RECURSOS::liberaRecurso(int pid){
 void RECURSOS::atualizaRecurso(){
 	//atualiza os recursos vazios com os proximos da fila
 	if (impressora[0] == -1) {
-		impressora[0]=fila_impressora.top();
+		impressora[0]=fila_impressora.front();
 		fila_impressora.pop();
+	}
 	if (impressora[1]== -1) {
-		impressora[0]=fila_impressora.top();
+		impressora[0]=fila_impressora.front();
 		fila_impressora.pop();
 	}
 	if (scanner== -1) {
-		scanner=fila_scanner.top();
+		scanner=fila_scanner.front();
 		fila_scanner.pop();
 	}
 
 	if (modem== -1) {
-		modem=fila_modem.top();
+		modem=fila_modem.front();
 		fila_scanner.pop();
 	}
 
 	if (disco[0] == -1) {
-		disco[0]=fila_disco.top();
-		fila_disco.pop();
+		disco[0]=fila_disco.front();
+		fila_disco.front();
+	}
 	if (disco[1]== -1) {
-		disco[0]=fila_disco.top();
+		disco[0]=fila_disco.front();
 		fila_disco.pop();
 	}
 
-};
+
+}
 
 void RECURSOS::inicializaRecurso(){
 	//poe -1 em cada recurso pra indicar que estão livres
-	impressora.push(-1);
-	impressora.push(-1);
-	disco.push(-1);
-	disco.push(-1);
+	impressora.push_back(-1);
+	impressora.push_back(-1);
+	disco.push_back(-1);
+	disco.push_back(-1);
 	scanner =-1;
 	modem = -1;
 
