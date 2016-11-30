@@ -1,34 +1,36 @@
 #include "defines.h"
 
 
-//Verifica se o processo precisa de algum recurso e retorna 
+//Verifica se o processo precisa de algum recurso e retorna:-1 se pelo menos algum estiver ocupado e 1 se todos livres
 int RECURSOS::verificaRecurso(int pid){
-	//Só diz que estao livres se todos os recursos estiverem livres, evita deadlock
-	//verifica se precisa de impressora
 	
+	//verifica se precisa de impressora
 	if (vet_processos[pid].impressora==1){
+
 		//verifica se as impressoras estao ocupadas
 		if(((impressora[0]!=-1)&&(impressora[0]!=pid))&&((impressora[1]!=-1)&&(impressora[1]!=pid))){
 			return -1;
 		}
 	}
-
+	//verifica se precisa de disco
 	if (vet_processos[pid].disco==1){
-		//verifica se os discos estao ocupadas
+		//verifica se os discos estao ocupados
 		if(((disco[0]!=-1)&&(disco[0]!=pid))&&((disco[1]!=-1)&&(disco[1]!=pid))){
 			return -1;
 		}
 	}
-		
+	
+	//verifica se precisa de modem
 	if (vet_processos[pid].modem==1){
-		//verifica se os discos estao ocupadas
+		//verifica se o modem esta ocupado
 		if((modem!=-1)&& (modem!=pid)){
 			return -1;
 		}
 	}
 
+	//verifica se precisa de scanner
 	if (vet_processos[pid].scanner==1){
-		//verifica se os discos estao ocupadas
+		//verifica se o scanner esta ocupados
 		if((scanner!=-1)&& (scanner!=pid)){
 			return -1;
 		}
@@ -38,20 +40,24 @@ int RECURSOS::verificaRecurso(int pid){
 }
 
 
-
+//aloca os recursos requisitados pelo processo
 void RECURSOS::alocaRecurso(int pid){
+	
 
+	//verifica se o processo precisa de impressora
 	if (vet_processos[pid].impressora==1){
 		//verifica se as impressoras estao ocupadas
 		if(impressora[0]==-1&&impressora[1]!=pid)
+			//aloca o recurso
 			impressora[0]=pid;
-		else
+		else//testa a outra impressora
 			if(impressora[1]==-1&&impressora[0]!=pid)
+			//aloca o recurso
 			impressora[1]=pid;
 	}
-
-if (vet_processos[pid].disco==1){
-		//verifica se as impressoras estao ocupadas
+	//verifica se o processo precisa de disco
+	if (vet_processos[pid].disco==1){
+		
 		if(disco[0]==-1&&disco[1]!=pid)
 			disco[0]=pid;
 		else
@@ -59,40 +65,31 @@ if (vet_processos[pid].disco==1){
 			disco[1]=pid;
 	}
 		
-	if (vet_processos[pid].modem==1){
-		//verifica se os discos estao ocupadas
-		
-			modem = pid;
-	}
+	if (vet_processos[pid].modem==1)
+		modem = pid;
+	
 
-	if (vet_processos[pid].scanner==1){
-		//verifica se os discos estao ocupadas
-		
-			scanner =pid;
-	}
-
+	if (vet_processos[pid].scanner==1)
+		scanner =pid;
+	
 }
-
+//Insere o processo nas filas dos recursos pedidos 
 void RECURSOS::insereFilaRecurso(int pid){
 	
 	if (vet_processos[pid].impressora==1){
-		//verifica se as impressoras estao ocupadas
 		fila_impressora.push(pid);
 	}
 
 	if (vet_processos[pid].disco==1){
-		//verifica se as impressoras estao ocupadas
 		fila_disco.push(pid);
 	}
 
 		
 	if (vet_processos[pid].modem==1){
-		//verifica se os discos estao ocupadas
 		fila_modem.push(pid);
 	}
 
 	if (vet_processos[pid].scanner==1){
-		//verifica se os discos estao ocupadas
 		fila_scanner.push(pid);
 	}
 
@@ -131,8 +128,9 @@ void RECURSOS::liberaRecurso(int pid){
 
 }
 
+//atualiza os recursos vazios com os proximos da fila
 void RECURSOS::atualizaRecurso(){
-	//atualiza os recursos vazios com os proximos da fila
+	
 
 	if (impressora[0] == -1) {
 		if(fila_impressora.size()!=0){
@@ -173,12 +171,11 @@ void RECURSOS::atualizaRecurso(){
 	}	
 }
 
+//inicializa os recursos com valores indicando disponibilidade
 void RECURSOS::inicializaRecurso(){
-	//poe -1 em cada recurso pra indicar que estão livres
+	
 	impressora.push_back(-1);
-
-	impressora.push_back(-1);
-
+    impressora.push_back(-1);
 	disco.push_back(-1);
 	disco.push_back(-1);
 	scanner =-1;

@@ -61,20 +61,24 @@ void MEMORIA::removeMemoria(int pid) {
 	}
 }
 
-
+//compacta a memoria
 void MEMORIA::desfragmentar() {
     int i, j;
     for (i=INI_MEMORIA_USUARIO;i<MAX_MEM;i++){
+    	//Espaço vazio?
         if(vet_memoria[i]!=-1){
-
-         //procura um espaço vazio
-            continue;
-        	//DEBUG::mostrarMemoria();
-        }	//printf("%d\n", i);
-        for(j=i+1;j<MAX_MEM;j++){ //procura o proximo espaço ocupado
+			
+			//procura um espaço vazio
+         	
+         	continue;
+        }	
+        //procura o proximo espaço ocupado
+        for(j=i+1;j<MAX_MEM;j++){ 
             if(vet_memoria[j]!=-1){
-                vet_memoria[i]=vet_memoria[j]; //transfere para a parte vazia
-                vet_memoria[j]=-1; //libera a parte antiga
+            	//transfere para a parte vazia
+                vet_memoria[i]=vet_memoria[j]; 
+                //libera a parte antiga
+                vet_memoria[j]=-1; 
 
               //  DEBUG::mostrarMemoria();
                 
@@ -84,13 +88,13 @@ void MEMORIA::desfragmentar() {
         
     }
 
-    //atualiza proc
+    //verifica se a memoria esta vazia antes de atualizar os processos.
     if(vet_memoria[INI_MEMORIA_USUARIO]==-1)
     	return;
 
+    //atualiza as informações de memoria nos processos
     for (i=INI_MEMORIA_USUARIO;vet_memoria[i]!=-1;){
     	int aux=vet_memoria[i];
-    	
     	vet_processos[aux].bloc_ini=i;
     	while(vet_memoria[i]==aux)
     		i++;

@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
 	
 	// Inicia Fluxo
 	while(1) {
-		//DEBUG::mostraRecursos();
+		
 		//Ha novos processos? SIM
 		if(vet_processos.size() > 0) {
 
@@ -69,8 +69,10 @@ int main(int argc, char **argv) {
 
 				//poe na fila de processos
 				UTILS::carregaFilasPrioridades();
+
+				//imprime informações de inicialização
 				OUTPUT::mostraDispatcher();
-				//imprime insformações de inicialização
+				
 				
 			}
 		
@@ -83,22 +85,24 @@ int main(int argc, char **argv) {
 
 			//Incrementa PC dele
 			PROCESSOS::atualizaPC(pid_exec);
+
+			//imprime informações 
 			OUTPUT::mostraExecucaoAtual(pid_exec);
-		//	DEBUG::mostrarProcesso(vet_processos[pid_exec]);
+		
 
 			
 	
 		}  else { // Nao ha um processo em execucao
 			//procura um processo
-			//Verifica em Cada fila por um Processo returna o pid do proximo a ser executado pid_exec
 			
+			//procura um processo
 			while(pid_exec  <0){
-			
+
+				//Verifica em Cada fila por um Processo returna o pid do proximo a ser executado pid_exec
 				pid_exec = UTILS::verificaProximoParaExecutar();
 
-				//DEBUG::mostrarProcesso(vet_processos[pid_exec]);
-				//PRECISA DE RECURSO? SIM
 				
+				//PROCESSO PRECISA DE RECURSO? SIM
 				if (PROCESSOS::verificaRecurso(pid_exec)) {
 					
 					//RECURSO DISPONIVEL? SIM
@@ -134,16 +138,17 @@ int main(int argc, char **argv) {
 					
 					
 					}
-				} else { // nao precisa de recurso
-					//atualiza fila
-					printf("%s\n", "nao entroi" );
+				} else { //NAO PRECISA DE RECURSO
 					
-				
-
+					
 					//coloca em execucao
 					PROCESSOS::atualizaEstado(pid_exec, 1);
+					//EXECUTA UMA INTRUCAO
 					PROCESSOS::atualizaPC(pid_exec);
+					//IMPRIME INSFORMACOES
 					OUTPUT::mostraExecucaoAtual(pid_exec);
+
+					//ATUALIZA FILA
 					UTILS::removeProcessoFila(pid_exec);
 
 					
@@ -166,12 +171,12 @@ int main(int argc, char **argv) {
 			
 			RECURSOS::liberaRecurso(pid_exec);
 
-			//desfrag memoria
+			//DESFRAGMENTA A MEMORIA
 			MEMORIA::desfragmentar();
 
 
 
-		} else { // NAO
+		} else { // NAO ACABOU
 
 
 			//Verifica se nao eh um processo em tempo real. Se for, pula atualizacoes
@@ -200,10 +205,11 @@ int main(int argc, char **argv) {
 		clock_atual++;
 		processos_novos.clear();
 		
+		//ATUALIZA AS FILAS DOS RECURSOS 
 		RECURSOS::atualizaRecurso();
 		
 
-		//DEBUG::mostraEstadoProcessos();
+		//SE NAO HOUVEREM MAIS PROCESSOS O PROGRAMA TERMNIA
 		if (!PROCESSOS::verificaExisteMaisProcessos()) {
 			break;	
 		}
